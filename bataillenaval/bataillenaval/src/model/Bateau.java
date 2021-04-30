@@ -15,7 +15,24 @@ public class Bateau{
     this.coule = false;
     this.toutBateau = new ArrayList<>();
   }
+/*
+  public int getX() {
+    return this.x;
+  }
 
+  public int getY() {
+    return this.y;
+  }
+
+  public int getDirection() {
+    if(this.toutBateau.get(1).getX() == this.x +1) {
+      return 0;
+    }
+    else {
+      return 1;
+    }
+  }
+*/
   public boolean getCoule(){
     return this.coule;
   }

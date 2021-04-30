@@ -37,7 +37,7 @@ public class ChampBataille{
   public void placer(Bateau bateau, int x, int y, int direction){
     boolean pasErreur = true;
     if(direction == 0){
-      if(y + bateau.getTaille() > 9){
+      if(y + bateau.getTaille() > 10){
         System.out.println("Placement impossible");
         pasErreur = false;
       }
@@ -49,11 +49,11 @@ public class ChampBataille{
       }
     }
     else{
-      if(x + bateau.getTaille() > 9){
+      if(x + bateau.getTaille() > 10){
         System.out.println("Placement impossible");
         pasErreur = false;
       }
-      if(pasErreur){
+      if(pasErreur) {
         for(int i = 0; i < bateau.getTaille(); i++){
           this.plateau[x+i][y].placer(bateau);
         }

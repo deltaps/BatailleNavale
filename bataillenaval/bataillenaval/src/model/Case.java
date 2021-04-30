@@ -28,6 +28,9 @@ public class Case{
   public Bateau bateauHere(){
     return this.bateau;
   }
+  public void annulerBateau() {
+    this.bateau = null;
+  }
   public void placer(Bateau bateau){
     this.bateau = bateau;
     bateau.addToBateau(this);
