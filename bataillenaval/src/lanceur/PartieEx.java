@@ -9,6 +9,7 @@ public class PartieEx{
     Joueur joueur1 = new Joueur(new ChampBataille());
     Joueur joueur2 = new Joueur(new ChampBataille());
 
+
     joueur1.placer(3,2,6,0);
     joueur1.placer(4,7,1,0);
     joueur1.placer(5,0,0,0);
@@ -47,6 +48,8 @@ public class PartieEx{
       System.out.println("");
     }
     System.out.println("-----------------------------------------");
+
+
     joueur1.viser(7,2,joueur2.getChampBataille());
     joueur1.viser(4,1,joueur2.getChampBataille());
     joueur1.viser(5,1,joueur2.getChampBataille());
