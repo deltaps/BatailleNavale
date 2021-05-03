@@ -43,12 +43,8 @@ public class EcouteurSouris extends MouseAdapter{
             // Partie qui permet de placer un bateau sur le tableau de gauche.
             if(deuxiemeClic) { // true si un bateau a déjà été cliqué.
                 if(numeroCaseColonneGrilleGauche != -1 && numeroCaseLigne != -1) { // true si le clique détecté est sur le tableau de gauche.
-                    /*if(this.controller.placementPossible(numeroCaseColonneGrilleGauche, numeroCaseLigne, numeroBateau)) { // true si le placement est possible.
-                        this.controller.placement(numeroCaseColonneGrilleGauche, numeroCaseLigne, numeroBateau); // Place le bateau, plus de détails dans la classe Controller.
-                        this.deuxiemeClic = false;
-                    }*/
                     this.controller.placement(numeroCaseColonneGrilleGauche, numeroCaseLigne, numeroBateau);
-                    if(this.controller.getJoueurCourant().getChampBataille().getCase(numeroCaseColonneGrilleGauche,numeroCaseLigne).bateauHere() != null) {
+                    if(this.controller.getJoueurCourant().getChampBataille().getCase(numeroCaseColonneGrilleGauche,numeroCaseLigne).bateauHere() != null) { // On vérifie que le bateau a bien été placé.
                         this.deuxiemeClic = false;
                     }
                 }

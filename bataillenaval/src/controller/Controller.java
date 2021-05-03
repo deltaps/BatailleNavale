@@ -129,7 +129,7 @@ public class Controller {
             sommeDeTaille += bateau;
         }
 
-        if(taille <= 10 && sommeDeTaille <= 50) { // La taille du bateau à placer ne doit pas dépasser 10, et la somme totale ne doit pas dépasser 50 pour éviter les configurations impossibles.
+        if(taille >= 0 && taille <= 10 && sommeDeTaille <= 50) { // La taille du bateau à placer ne doit pas dépasser 10, être en égale ou en inférieure à 0, et la somme totale ne doit pas dépasser 50 pour éviter les configurations impossibles.
             this.bateauAPlacer.add(taille);
         }
     }
@@ -168,9 +168,8 @@ public class Controller {
     Si dans la liste, le bateau à placer est le bateau d'indice 1, alors ça placera ce bateau.
      */
     public void placement(int x, int y, int numeroBateau) {
-        //this.joueurCourant.placer(new Bateau(this.bateauAPlacer.get(numeroBateau)), x, y, this.rotation); // Place le bateau aux coordonnées (x,y), dans la direction this.rotation. Sa taille est définie par la valeur du tableau "this.bateauAPlacer" d'indice "numero bateau".
         this.joueurCourant.placer(this.bateauAPlacer.get(numeroBateau), x, y, this.rotation); // Place le bateau aux coordonnées (x,y), dans la direction this.rotation. Sa taille est définie par la valeur du tableau "this.bateauAPlacer" d'indice "numero bateau".
-        if(this.joueurCourant.getChampBataille().getCase(x,y).bateauHere() != null) {
+        if(this.joueurCourant.getChampBataille().getCase(x,y).bateauHere() != null) { // Vérifie si le bateau a bien été placé, donc que le placement était possible.
             this.bateauAPlacer.remove(numeroBateau); // Le bateau a bien été placé, on enlève donc le bateau à placer de la liste car il n'est plus à placer.
             this.vue.afficheFenetre();
         }
@@ -179,82 +178,13 @@ public class Controller {
         }
     }
 
-    // Fonction utilisée dans la classe EcouteurSouris.
-    // Retourne true si le placement est possible, et false si celui-ci est impossible.
-    public boolean placementPossible(int x, int y, int numeroBateau) {
-        int taille = this.bateauAPlacer.get(numeroBateau);
-        boolean placementPossible = false;
-
-        if(this.rotation == 0) { // Si le bateau est vertical.
-            for (int yCase = y; yCase != y + taille; yCase++) { // Boucle qui vérifie, on fonction de la direction du bateau et de sa taille si le placement est possible.
-                if(yCase <= 9) { // Le placement n'est pas possible si une case du bateau dépasse du plateau.
-                    if(this.joueurCourant.getChampBataille().getCase(x, yCase).bateauHere() == null) { // Le placement n'est pas possible si une case du bateau superpose un autre bateau.
-                        placementPossible = true;
-                    }
-                    else {
-                        return false;
-                    }
-                }
-                else {
-                    return false;
-                }
-            }
-        }
-        else { // Si le bateau est horizontal (mêmes vérifications que si le bateau est vertical, avec quelques changement par rapport aux coordonnées).
-            for (int xCase = x; xCase != x + taille; xCase++) {
-                if(xCase <= 9) {
-                    if(this.joueurCourant.getChampBataille().getCase(xCase, y).bateauHere() == null) {
-                        placementPossible = true;
-                    }
-                    else {
-                        return false;
-                    }
-                }
-                else {
-                    return false;
-                }
-            }
-        }
-        return placementPossible;
-    }
-
     // Fonction qui permet d'annuler le placement du bateau de coordonnées (x,y) lorsque l'on clique dessus.
     // Est utilisée dans EcouteurSouris.
     public void annulerPlacement(int x, int y) {
         if(this.vue.messageConfirmation("Voulez-vous annuler le placement de ce bateau ?") == 0) { // Affiche un message de confirmation : plus de détails dans vue.Vue.
-            //ChampBataille modelJoueurCourant = this.joueurCourant.getChampBataille();
             Bateau bateauClique = this.joueurCourant.getChampBataille().getCase(x, y).bateauHere(); // Variable contenant le bateau cliqué qui est sur la case (x,y).
 
             this.joueurCourant.getChampBataille().annulerPlacementBateau(x, y, bateauClique);
-            /*
-            // Cette partie du code pourrait faire partie du model.
-            this.joueurCourant.getChampBataille().getBateaux().remove(bateauClique); // Permet d'enlever le bateau de la liste de bateau.
-
-            modelJoueurCourant.getCase(x, y).annulerBateau(); // Permet d'enlever la bateau sur la case de coordonnées (x,y).
-            for (int i = 1; i < bateauClique.getTaille(); i++) { // Boucle qui vérifie toutes les cases alentour de celle cliquée, si elles contiennent le bateau cliqué.
-                if (x + i <= 9) { // Si on ne dépasse pas les bords du terrain.
-                    if (modelJoueurCourant.getCase(x + i, y).bateauHere() == bateauClique) {
-                        modelJoueurCourant.getCase(x + i, y).annulerBateau();
-                    }
-                }
-                if (x - i >= 0) {
-                    if (modelJoueurCourant.getCase(x - i, y).bateauHere() == bateauClique) {
-                        modelJoueurCourant.getCase(x - i, y).annulerBateau();
-                    }
-                }
-                if (y + i <= 9) {
-                    if (modelJoueurCourant.getCase(x, y + i).bateauHere() == bateauClique) {
-                        modelJoueurCourant.getCase(x, y + i).annulerBateau();
-                    }
-                }
-                if (y - i >= 0) {
-                    if (modelJoueurCourant.getCase(x, y - i).bateauHere() == bateauClique) {
-                        modelJoueurCourant.getCase(x, y - i).annulerBateau();
-                    }
-                }
-            }
-
-             */
 
             this.bateauAPlacer.add(bateauClique.getTaille()); // Remet un bateau à placer de la même tailler que celui enlevé dans les bateaux à placer.
             this.vue.afficheFenetre();
