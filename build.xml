@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="BatailleNavale" default="packaging" basedir="livraison">
+
+<property name="projet.sources.dir" value="src"/>
+<property name="projet.build.dir" value="/build"/>
+<property name="projet.lib.dir" value="lib"/>
+<property name="projet.dist.dir" value="/dist"/>
+<property name="projet.dist.doc" value="/doc"/>
+
+<path id="projet.classpath">
+	<fileset dir="${projet.lib.dir}">
+		<include name="*.jar"/>
+	</fileset>
+	<pathelement location="/build" />
+</path>
+
+<target name="compile" description="Compilation des classes">
+	<javac srcdir="${projet.sources.dir}" destdir="/build" debug="on" optimize="off" deprecation="on" includeantruntime="false">
+		<classpath refid="projet.classpath"/>
+	</javac>
+</target>
+
+<target name="run" description="execution" depends="compile">
+	<java classname="lanceur.Lanceur" fork="true">
+		<classpath refid="projet.classpath"/>
+	</java>
+</target>
+
+<target name="javadoc">
+	<javadoc sourcepath="src" destdir="/doc" >
+	<fileset dir="src" defaultexcludes="yes">
+		<include name="**" />
+	</fileset>
+	</javadoc>
+</target>
+
+<target name="packaging" depends="prepare,compile,javadoc">
+	<jar jarfile="/dist/BatailleNavale.jar" basedir="/build">
+		<manifest>
+				<attribute name="Main-Class" value="lanceur.Lanceur" />
+		</manifest>
+	</jar>
+	<copy todir="/dist/images">
+		<fileset dir="images"/>
+	</copy>
+</target>
+
+<target name="prepare">
+
+  <mkdir dir="/dist"/>
+  <mkdir dir="/build"/>
+  <mkdir dir="${projet.lib.dir}"/>
+	<mkdir dir="/doc"/>
+
+</target>
+
+</project>
